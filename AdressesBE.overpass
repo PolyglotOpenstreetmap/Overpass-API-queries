@@ -1,0 +1,27 @@
+area[name="België - Belgique - Belgien"];
+(
+  node(area);
+  <;
+) -> .allnodeswaysrelationsinBelgium;
+(
+  rel.allnodeswaysrelationsinBelgium["type"="associatedStreet"];
+) -> .allassociatedStreetrelations;
+(
+  rel.allnodeswaysrelationsinBelgium["addr:housenumber"];
+) -> .alladdr_housenumberrelations;
+(
+  way.allnodeswaysrelationsinBelgium["addr:housenumber"];
+) -> .alladdr_housenumberways;
+(
+  node.allnodeswaysrelationsinBelgium["addr:housenumber"];
+) -> .alladdr_housenumbernodes;
+(
+  .allassociatedStreetrelations;
+  .allassociatedStreetrelations >;
+  .alladdr_housenumberrelations;
+  .alladdr_housenumberrelations >;
+  .alladdr_housenumberways;
+  .alladdr_housenumberways >;
+  .alladdr_housenumbernodes;
+);
+out meta qt;

@@ -1,0 +1,14 @@
+area[name="België - Belgique - Belgien"];
+(
+  node(area);
+  <;
+) -> .allnodeswaysrelationsinBelgium;
+
+(
+  node.allnodeswaysrelationsinBelgium["highway=speed_camera"];
+) -> .speedcams;
+(
+
+  .speedcams;
+);
+out meta qt;

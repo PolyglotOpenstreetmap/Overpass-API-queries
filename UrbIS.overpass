@@ -1,0 +1,15 @@
+(
+   node["ref:UrbIS"]
+   ->.addressnodes;
+   way["ref:UrbIS"]
+   ->.buildings;
+  node(w.buildings);
+
+  rel(bn.addressnodes)["type"="associatedStreet"];
+  way(r.routes);
+  node(w);
+  rel(bw.buildings)["type"="associatedStreet"];
+  way(r.routes);
+  node(w);
+);
+out meta;

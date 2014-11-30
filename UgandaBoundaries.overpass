@@ -1,0 +1,12 @@
+﻿area[name~"Uganda"]  -> .UG;
+(
+  rel(area.UG)
+  ["type"="boundary"];
+  >;
+  rel(area.UG)
+  ["type"="multipolygon"];
+  ["natural"="water"];
+  >;
+) -> .allboundaryrelations;
+
+out meta;

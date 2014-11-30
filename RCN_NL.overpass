@@ -1,0 +1,32 @@
+area["name:nl"~"Nederland"] -> .NL_Area;
+
+node(area.NL_Area) -> .allnodesinArea;
+(
+  rel(bn.allnodesinArea)
+    ["type"="network"]
+    ["network"="rcn"]
+  ->.networks;
+  (
+   .networks >>;
+   rel(bn.allnodesinArea)
+    ["type"="route"]
+    ["route"="bicycle"]
+    ["network"="rcn"];
+   )->.routes;
+  way(r.routes);
+  node(w);
+  node.allnodesinArea
+    ["tourism"~"information|map"]
+  ->.maps;
+   (
+    node(r.networks);
+    node.allnodesinArea
+      ["rcn_ref"]
+   )->.numberednodes;
+  way(bn.numberednodes)->.parentways;
+  node(w.parentways);
+  rel(bw.parentways)
+    ["network"="rcn"];
+  >;
+);
+out meta;

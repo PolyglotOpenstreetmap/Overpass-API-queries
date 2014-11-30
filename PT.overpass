@@ -1,0 +1,70 @@
+[timeout:900];
+//area["name:nl"~"Vlaams-Brabant|Antwerpen|..st-Vlaanderen"] -> .VBAntw; 
+//area["alt_name:nl"="Belgisch Limburg"] -> .Limb;
+area["name:en"="Belgium"] -> .BE;
+
+(
+  //node(area.VBAntw);
+  //node(area.Limb);
+  node(area.BE);
+) -> .allnodesinArea;
+(
+  rel(bn.allnodesinArea)
+    ["type"="route"]
+    ["route"~"bus|tram"]
+  ->.routes;
+  .routes << ->.route_masters;
+  (
+    node.allnodesinArea
+      ["highway"="bus_stop"]
+    ->.stops;
+    node.allnodesinArea
+      ["amenity"="bus_station"]
+    ->.busstations;
+    node.allnodesinArea
+      ["railway"="tram_stop"]
+    ->.tstops;
+    node.allnodesinArea
+      ["public_transport"]
+    ->.platforms;
+    node
+      ["highway"="bus_stop"]
+      ["operator"~"De Lijn|TEC|SRWT|STIB|MIVB"];
+    node
+      ["railway"="tram_stop"]
+      ["operator"~"De Lijn|TEC|SRWT|STIB|MIVB"];
+    node
+      ["public_transport"="platform"]
+      ["operator"~"De Lijn|TEC|SRWT|STIB|MIVB"];
+  ) -> .stopsPlatformsAndStopPositions;
+  (
+    way(bn.allnodesinArea)
+      ["highway"="bus_guideway"];
+    way(bn.allnodesinArea)
+      ["railway"="tram"];
+  ) ->.tracks;
+  way(bn.allnodesinArea)
+    ["amenity"="shelter"]
+    ["shelter_type"="public_transport"]
+  ->.shelters;
+  node(w.shelters);
+  node.allnodesinArea
+    ["amenity"="shelter"]
+    ["shelter_type"="public_transport"]
+  ->.shelternodes;
+  node(r.routes);
+  way(bn)->.parentways1;
+  node(w.parentways1);
+  rel(bw.parentways1);
+  way(r.routes);
+  node(w);
+  way(bn.stopsPlatformsAndStopPositions);
+  rel(bn.stopsPlatformsAndStopPositions)
+    ["type"="public_transport"]
+  -> .stopAttributes;
+  node(r.stopAttributes);
+  way(r.stopAttributes);
+  node(w);
+  node(w.tracks);
+);
+out meta;

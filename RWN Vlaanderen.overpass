@@ -1,0 +1,27 @@
+area[name="Oost-Vlaanderen"];
+
+(
+  node(area);
+  <;
+) -> .allnodeswaysrelationsinFlanders;
+
+(
+  relation.allnodeswaysrelationsinFlanders
+    ["type"="network"]
+    ["network"="rwn"]
+  ->.networks;
+  relation.allnodeswaysrelationsinFlanders
+    ["type"="route"]
+    ["network"="rwn"]
+  ->.routes;
+  node.allnodeswaysrelationsinFlanders
+    ["rwn_ref"]
+  ->.rwn_nodes;
+  node(r.networks);
+  relation(r.networks);
+  way(r);
+  node(w);
+  way(r.routes);
+  node(w);
+);
+out meta;
