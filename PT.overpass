@@ -14,6 +14,9 @@ area["name:en"="Belgium"] -> .BE;
     ["route"~"bus|tram"]
   ->.routes;
   .routes << ->.route_masters;
+  rel(r.route_masters) -> .more_child_routes;
+  (.routes
+   .more_child_routes) -> .routes;
   (
     node.allnodesinArea
       ["highway"="bus_stop"]
@@ -58,10 +61,15 @@ area["name:en"="Belgium"] -> .BE;
   rel(bw.parentways1);
   way(r.routes);
   node(w);
-  way(bn.stopsPlatformsAndStopPositions);
+  way(bn.stopsPlatformsAndStopPositions); // parent ways for platforms and stop_positions
   rel(bn.stopsPlatformsAndStopPositions)
     ["type"="public_transport"]
-  -> .stopAttributes;
+  -> .stopAttributes;                     // stop_area relations
+  (
+  rel(br.stopAttributes) -> .SAG;          // stop_area_group relations
+  rel(br.SAG) -> .SAG2;                    // parents of stop_area_group relations 
+  rel(br.SAG2);                            // grandparents of stop_area_group relations 
+  );                                      
   node(r.stopAttributes);
   way(r.stopAttributes);
   node(w);
