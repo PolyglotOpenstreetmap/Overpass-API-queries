@@ -1,7 +1,6 @@
-[timeout:400]
-[maxsize:1073741824];
+[timeout:200];
 
-area["name:en"="Belgium"] -> .BE;
+area["name:en"~"Wallonia"] -> .BE;
 
 (
   node(area.BE);
@@ -16,37 +15,37 @@ area["name:en"="Belgium"] -> .BE;
   //(.routes
   // .more_child_routes) -> .routes;
   (
-     node.allnodesinArea
-       ["highway"="bus_stop"]
-     ->.stops;
+    node.allnodesinArea
+      ["highway"="bus_stop"]
+    ->.stops;
     node.allnodesinArea
       ["amenity"="bus_station"]
     ->.busstations;
     node.allnodesinArea
-       ["railway"="tram_stop"]
-     ->.tstops;
-     node.allnodesinArea
-       ["public_transport"]
-     ->.platforms;
+      ["railway"="tram_stop"]
+    ->.tstops;
+    node.allnodesinArea
+      ["public_transport"]
+    ->.platforms;
     node
       ["highway"="bus_stop"]
-      ["operator"~"De Lijn|TEC|SRWT|STIB|MIVB"];
+      ["operator"~"TEC|SRWT|STIB|MIVB"];
     node
       ["railway"="tram_stop"]
-      ["operator"~"De Lijn|TEC|SRWT|STIB|MIVB"];
+      ["operator"~"TEC|SRWT|STIB|MIVB"];
     node
       ["public_transport"="platform"]
-      ["operator"~"De Lijn|TEC|SRWT|STIB|MIVB"];
+      ["operator"~"TEC|SRWT|STIB|MIVB"];
   ) -> .stopsPlatformsAndStopPositions;            // All bus_stop, tram_stop, platform nodes 
                                                    // inside of Belgium and some outside of Belgium
                                                    // in case they are served by De Lijn or TEC
-   (
-     way(bn.allnodesinArea)
-       ["highway"="bus_guideway"];
-     way(bn.allnodesinArea)
-       ["railway"="tram"];
-   ) ->.tracks;                                     // all bus_guideways and tram rails
-   node(w.tracks);                                  // and their nodes
+  (
+    way(bn.allnodesinArea)
+      ["highway"="bus_guideway"];
+    way(bn.allnodesinArea)
+      ["railway"="tram"];
+  ) ->.tracks;                                     // all bus_guideways and tram rails
+  node(w.tracks);                                  // and their nodes
   way(bn.allnodesinArea)
     ["amenity"="shelter"]
     ["shelter_type"="public_transport"]
